@@ -7,6 +7,8 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_API_VERSION
 from homeassistant.data_entry_flow import FlowResult
 
+from bluetti_bt_lib import recognize_device
+
 from .const import DOMAIN, CONF_ENCRYPTION
 
 _LOGGER = logging.getLogger(__name__)
@@ -18,7 +20,6 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize config flow."""
         self._discovery_info: BluetoothServiceInfoBleak | None = None
-        self._discovered_devices: dict[str, BluetoothServiceInfoBleak] = {}
 
     async def async_step_bluetooth(self, discovery_info: BluetoothServiceInfoBleak) -> FlowResult:
         """Handle bluetooth discovery."""
@@ -39,7 +40,7 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
             self._abort_if_unique_id_configured()
 
-            data = self._detect_bluetti_device()
+            data = await self._async_detect_bluetti_device(self._discovery_info.address)
 
             # Save entry
             return self.async_create_entry(
@@ -58,15 +59,18 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         if user_input is not None:
+            entry = self._get_reconfigure_entry()
+            address = entry.data.get(CONF_ADDRESS)
+
             await self.async_set_unique_id(
-                self._discovery_info.address, raise_on_progress=False
+                address, raise_on_progress=False
             )
             self._abort_if_unique_id_mismatch()
 
-            data = self._detect_bluetti_device()
+            data = await self._async_detect_bluetti_device(address)
 
             return self.async_update_reload_and_abort(
-                self._get_reconfigure_entry(),
+                entry,
                 data_updates=data,
             )
 
@@ -76,13 +80,27 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=Schema({}),
         )
 
-    def _detect_bluetti_device(self) -> dict:
-        # Run model detection
-        # TODO
+    async def _async_detect_bluetti_device(self, address: str) -> dict:
+        _LOGGER.debug("Starting device detection")
 
-        return {
-            CONF_ADDRESS: self._discovery_info.address,
-            CONF_MODEL: "Dummy",
-            CONF_API_VERSION: 1,
-            CONF_ENCRYPTION: False,
+        # Run model detection
+        result = await recognize_device(
+            address, self.hass.loop.create_future
+        )
+
+        _LOGGER.debug("Device detection complete.")
+
+        if result is None:
+            _LOGGER.error("Unknown or unsupported device")
+            return None
+
+        data = {
+            CONF_ADDRESS: address,
+            CONF_MODEL: result.name,
+            CONF_API_VERSION: result.iot_version,
+            CONF_ENCRYPTION: result.encrypted,
         }
+
+        _LOGGER.debug(data)
+
+        return data
