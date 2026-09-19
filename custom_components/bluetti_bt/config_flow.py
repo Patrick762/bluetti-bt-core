@@ -38,7 +38,9 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         # Handle discovery proceed setup
         if user_input is not None:
-            await self.async_set_unique_id(self._discovery_info.address, raise_on_progress=False)
+            await self.async_set_unique_id(
+                self._discovery_info.address, raise_on_progress=False
+            )
             self._abort_if_unique_id_configured()
 
             # Run model detection
