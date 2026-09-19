@@ -21,7 +21,9 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize config flow."""
         self._discovery_info: BluetoothServiceInfoBleak | None = None
 
-    async def async_step_bluetooth(self, discovery_info: BluetoothServiceInfoBleak) -> FlowResult:
+    async def async_step_bluetooth(
+        self, discovery_info: BluetoothServiceInfoBleak
+    ) -> FlowResult:
         """Handle bluetooth discovery."""
         _LOGGER.debug(f"Discovered matching device {discovery_info.name}")
         await self.async_set_unique_id(discovery_info.address)
@@ -30,7 +32,9 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.context["title_placeholders"] = {"name": discovery_info.name}
         return await self.async_step_user()
 
-    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_user(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
         """Handle user input."""
 
         # Handle discovery proceed setup
@@ -57,14 +61,14 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=Schema({}),
         )
 
-    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
         if user_input is not None:
             entry = self._get_reconfigure_entry()
             address = entry.data.get(CONF_ADDRESS)
 
-            await self.async_set_unique_id(
-                address, raise_on_progress=False
-            )
+            await self.async_set_unique_id(address, raise_on_progress=False)
             self._abort_if_unique_id_mismatch()
 
             data = await self._async_detect_bluetti_device(address)
@@ -84,9 +88,7 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         _LOGGER.debug("Starting device detection")
 
         # Run model detection
-        result = await recognize_device(
-            address, self.hass.loop.create_future
-        )
+        result = await recognize_device(address, self.hass.loop.create_future)
 
         _LOGGER.debug("Device detection complete.")
 
