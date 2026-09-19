@@ -27,9 +27,6 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         _LOGGER.debug(f"Discovered matching device {discovery_info.name}")
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
-
-        discovery_info.manufacturer_data = {}
-
         self._discovery_info = discovery_info
         self.context["title_placeholders"] = {"name": discovery_info.name}
         return await self.async_step_user()
