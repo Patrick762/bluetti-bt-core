@@ -1,2 +1,3 @@
 homeassistant
+probatio
 bluetti-bt-lib==0.1.8
