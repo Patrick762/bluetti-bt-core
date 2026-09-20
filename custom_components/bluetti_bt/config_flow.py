@@ -1,15 +1,14 @@
 """Config flow for Bluetti BT integration."""
 
 import logging
-from typing import Any
+from typing import Any, override
 
 from bluetti_bt_lib import recognize_device
 from habluetooth import BluetoothServiceInfoBleak
-from probatio import Schema, Optional
+from probatio import Schema
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
-from homeassistant.helpers import selector
 
 from .const import CONF_ENCRYPTION, CONF_SERIAL, DOMAIN
 
@@ -23,6 +22,7 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
         """Initialize config flow."""
         self._discovery_info: BluetoothServiceInfoBleak | None = None
 
+    @override
     async def async_step_bluetooth(
         self, discovery_info: BluetoothServiceInfoBleak
     ) -> ConfigFlowResult:
@@ -34,10 +34,17 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
         self.context["title_placeholders"] = {"name": discovery_info.name}
         return await self.async_step_user()
 
+    @override
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle user input."""
+
+        errors: dict[str, str] = {}
+
+        if not self._discovery_info:
+            errors["base"] = "no_unconfigured_devices"
+            return self.async_abort(reason="no_unconfigured_devices")
 
         # Handle discovery proceed setup
         if user_input is not None:
@@ -49,21 +56,20 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
             data = await self._async_detect_bluetti_device(self._discovery_info.address)
 
             if data is None:
+                errors["base"] = "unsupported_device"
                 return self.async_abort(reason="unsupported_device")
 
             # Save entry
             return self.async_create_entry(
-                title=data.get(CONF_MODEL),
+                title=str(data.get(CONF_MODEL)),
                 data=data,
             )
-
-        if not self._discovery_info:
-            return self.async_abort(reason="no_unconfigured_devices")
 
         # We don't have manual configs, only via discovery
         return self.async_show_form(
             step_id="user",
             data_schema=Schema({}),
+            errors=errors,
         )
 
     async def async_step_reconfigure(
@@ -73,7 +79,7 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             entry = self._get_reconfigure_entry()
-            address = entry.data.get(CONF_ADDRESS)
+            address = str(entry.data.get(CONF_ADDRESS))
 
             await self.async_set_unique_id(address, raise_on_progress=False)
             self._abort_if_unique_id_mismatch()

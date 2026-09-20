@@ -2,7 +2,7 @@
 
 from datetime import timedelta
 import logging
-from typing import override
+from typing import Any, override
 
 from bluetti_bt_lib import DeviceReader, DeviceReaderConfig
 from bluetti_bt_lib.base_devices import BaseDeviceV1, BaseDeviceV2
@@ -19,7 +19,7 @@ from .const import CONF_ENCRYPTION, DOMAIN
 type BluettiBtConfigEntry = ConfigEntry[PollingCoordinator]
 
 
-class PollingCoordinator(DataUpdateCoordinator[dict | None]):
+class PollingCoordinator(DataUpdateCoordinator):
     """Polling coordinator."""
 
     config_entry: BluettiBtConfigEntry
@@ -55,16 +55,16 @@ class PollingCoordinator(DataUpdateCoordinator[dict | None]):
         )
 
     @override
-    async def _async_update_data(self) -> dict | None:
+    async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from bluetooth device."""
 
         # Check if device is connected
         if (
-            bluetooth.async_address_present(self.hass, self.mac, connectable=True)
+            bluetooth.async_address_present(self.hass, str(self.mac), connectable=True)
             is False
         ):
             self.logger.warning("Device not connected")
             self.last_update_success = False
-            return None
+            return {}
 
         return await self.reader.read()

@@ -3,14 +3,16 @@
 from decimal import Decimal
 from enum import Enum
 import logging
+from typing import override
+
+from bluetti_bt_lib import DeviceField
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import CONF_ADDRESS, CONF_MODEL, EntityCategory
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from bluetti_bt_lib import DeviceField
 
 from .const import CONF_SERIAL, DOMAIN
 from .coordinator import BluettiBtConfigEntry, PollingCoordinator
@@ -27,21 +29,20 @@ async def async_setup_entry(
     sensor_fields = device.get_sensor_fields()
 
     device_info = DeviceInfo(
-        identifiers={(DOMAIN, entry.data.get(CONF_ADDRESS))},
+        identifiers={(DOMAIN, entry.data.get(CONF_ADDRESS, ""))},
         manufacturer="Bluetti",
         model=entry.data.get(CONF_MODEL),
         serial_number=str(entry.data.get(CONF_SERIAL)),
     )
 
-    sensors_to_add: list[BluettiSensor] = []
-    for field in sensor_fields:
-        sensors_to_add.append(
-            BluettiSensor(
-                entry.runtime_data,
-                device_info,
-                field,
-            )
+    sensors_to_add: list[BluettiSensor] = [
+        BluettiSensor(
+            entry.runtime_data,
+            device_info,
+            field,
         )
+        for field in sensor_fields
+    ]
 
     async_add_entities(sensors_to_add)
 
@@ -54,12 +55,12 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
         coordinator: PollingCoordinator,
         device_info: DeviceInfo,
         field: DeviceField,
-    ):
+    ) -> None:
         """Init sensor entity."""
 
         super().__init__(coordinator)
         self.coordinator = coordinator
-        self._attr_unique_id = f'{device_info.get("serial_number")}_{field.name}'
+        self._attr_unique_id = f"{device_info.get('serial_number')}_{field.name}"
         self._attr_device_info = device_info
         self._attr_has_entity_name = True
         self._attr_translation_key = field.name
@@ -78,6 +79,7 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
         self._attr_available = False
 
     @property
+    @override
     def available(self) -> bool:
         """Return if entity is available."""
         return self._attr_available
@@ -97,13 +99,13 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
 
         self.async_write_ha_state()
 
-    @callback
+    @override
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
 
-        if self.coordinator.data is None:
+        if not self.coordinator.data:
             self._logger.warning(
-                "Data from coordinator is None",
+                "Data from coordinator is Empty",
             )
             self._set_unavailable()
             return
@@ -121,11 +123,11 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
             self.coordinator.data,
         )
 
-        response_data = self.coordinator.data.get(self._attr_translation_key)
+        response_data = self.coordinator.data.get(str(self._attr_translation_key))
 
         if response_data is None:
             self._logger.debug(
-                "No data for available for (%s)", self._attr_translation_key
+                "No data for available for (%s)", str(self._attr_translation_key)
             )
             self._set_unavailable()
             return
@@ -133,11 +135,9 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
         if (
             not isinstance(response_data, int)
             and not isinstance(response_data, float)
-            and not isinstance(response_data, complex)
             and not isinstance(response_data, Decimal)
             and not isinstance(response_data, Enum)
             and not isinstance(response_data, str)
-            and not isinstance(response_data, list)
         ):
             self._logger.warning(
                 "Invalid response data type from coordinator (sensor.%s): %s has type %s",
