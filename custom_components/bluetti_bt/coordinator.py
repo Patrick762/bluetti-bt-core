@@ -50,15 +50,13 @@ class PollingCoordinator(DataUpdateCoordinator[dict | None]):
             self.device,
             self.hass.loop.create_future,
             DeviceReaderConfig(
-                config_entry.data.get(CONF_ENCRYPTION),
+                use_encryption=config_entry.data.get(CONF_ENCRYPTION),
             ),
         )
 
     @override
     async def _async_update_data(self) -> dict | None:
         """Fetch data from bluetooth device."""
-
-        self.logger.error("Hello")
 
         # Check if device is connected
         if (

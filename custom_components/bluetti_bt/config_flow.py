@@ -5,12 +5,13 @@ from typing import Any
 
 from bluetti_bt_lib import recognize_device
 from habluetooth import BluetoothServiceInfoBleak
-from probatio import Schema
+from probatio import Schema, Optional
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
+from homeassistant.helpers import selector
 
-from .const import CONF_ENCRYPTION, DOMAIN
+from .const import CONF_ENCRYPTION, CONF_SERIAL, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,6 +48,9 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
 
             data = await self._async_detect_bluetti_device(self._discovery_info.address)
 
+            if data is None:
+                return self.async_abort(reason="unsupported_device")
+
             # Save entry
             return self.async_create_entry(
                 title=data.get(CONF_MODEL),
@@ -76,6 +80,9 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
 
             data = await self._async_detect_bluetti_device(address)
 
+            if data is None:
+                return self.async_abort(reason="unsupported_device")
+
             return self.async_update_reload_and_abort(
                 entry,
                 data_updates=data,
@@ -87,7 +94,7 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=Schema({}),
         )
 
-    async def _async_detect_bluetti_device(self, address: str) -> dict:
+    async def _async_detect_bluetti_device(self, address: str) -> dict | None:
         _LOGGER.debug("Starting device detection")
 
         # Run model detection
@@ -102,6 +109,7 @@ class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
         data = {
             CONF_ADDRESS: address,
             CONF_MODEL: result.name,
+            CONF_SERIAL: str(result.sn),
             CONF_API_VERSION: result.iot_version,
             CONF_ENCRYPTION: result.encrypted,
         }

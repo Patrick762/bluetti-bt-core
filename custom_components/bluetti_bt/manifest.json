@@ -13,7 +13,6 @@
     "integration_type": "device",
     "iot_class": "local_polling",
     "issue_tracker": "https://github.com/Patrick762/bluetti-bt-core/issues",
-    "homeassistant": "2024.5.0",
-    "requirements": ["bluetti-bt-lib==0.1.8"],
+    "requirements": ["bluetti-bt-lib==0.2.0b3"],
     "version": "1.0.0"
 }
