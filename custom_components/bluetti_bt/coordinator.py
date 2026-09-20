@@ -39,15 +39,15 @@ class PollingCoordinator(DataUpdateCoordinator[dict | None]):
         )
 
         if config_entry.data.get(CONF_API_VERSION) == 1:
-            device = BaseDeviceV1()
+            self.device = BaseDeviceV1()
         elif config_entry.data.get(CONF_API_VERSION) == 2:
-            device = BaseDeviceV2()
+            self.device = BaseDeviceV2()
         else:
             raise HomeAssistantError("Unknown protocol")
 
         self.reader = DeviceReader(
             self.mac,
-            device,
+            self.device,
             self.hass.loop.create_future,
             DeviceReaderConfig(
                 config_entry.data.get(CONF_ENCRYPTION),
