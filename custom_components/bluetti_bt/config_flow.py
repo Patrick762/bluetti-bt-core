@@ -1,20 +1,21 @@
+"""Config flow for Bluetti BT integration."""
+
 import logging
 from typing import Any
-from probatio import Schema
-
-from habluetooth import BluetoothServiceInfoBleak
-from homeassistant import config_entries
-from homeassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_API_VERSION
-from homeassistant.data_entry_flow import FlowResult
 
 from bluetti_bt_lib import recognize_device
+from habluetooth import BluetoothServiceInfoBleak
+from probatio import Schema
 
-from .const import DOMAIN, CONF_ENCRYPTION
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
+
+from .const import CONF_ENCRYPTION, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class BluettiConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle config flow for Bluetti BT devices."""
 
     def __init__(self) -> None:
@@ -23,9 +24,9 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_bluetooth(
         self, discovery_info: BluetoothServiceInfoBleak
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle bluetooth discovery."""
-        _LOGGER.debug(f"Discovered matching device {discovery_info.name}")
+        _LOGGER.debug("Discovered matching device")
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
         self._discovery_info = discovery_info
@@ -34,7 +35,7 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle user input."""
 
         # Handle discovery proceed setup
@@ -48,7 +49,7 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
             # Save entry
             return self.async_create_entry(
-                title=self._discovery_info.name,
+                title=data.get(CONF_MODEL),
                 data=data,
             )
 
@@ -63,7 +64,9 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_reconfigure(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
+        """Handle reconfiguring."""
+
         if user_input is not None:
             entry = self._get_reconfigure_entry()
             address = entry.data.get(CONF_ADDRESS)
@@ -90,7 +93,7 @@ class BluettiConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Run model detection
         result = await recognize_device(address, self.hass.loop.create_future)
 
-        _LOGGER.debug("Device detection complete.")
+        _LOGGER.debug("Device detection complete")
 
         if result is None:
             _LOGGER.error("Unknown or unsupported device")
