@@ -1,0 +1,312 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+            "unsupported_device": "Unsupported device",
+            "no_unconfigured_devices": "No unconfigured devices"
+        },
+        "step": {
+            "user": {
+                "description": "Do you want to add this device?"
+            },
+            "reconfigure": {
+                "description": "Do you want to reconfigure this device?"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "ac_1_o_c": {
+                "name": "AC 1 Ausgang Strom"
+            },
+            "ac_1_o_p": {
+                "name": "AC 1 Ausgang Leistung"
+            },
+            "ac_1_o_v": {
+                "name": "AC 1 Ausgang Spannung"
+            },
+            "ac_2_o_c": {
+                "name": "AC 2 Ausgang Strom"
+            },
+            "ac_2_o_p": {
+                "name": "AC 2 Ausgang Leistung"
+            },
+            "ac_2_o_v": {
+                "name": "AC 2 Ausgang Spannung"
+            },
+            "ac_3_o_c": {
+                "name": "AC 3 Ausgang Strom"
+            },
+            "ac_3_o_p": {
+                "name": "AC 3 Ausgang Leistung"
+            },
+            "ac_3_o_v": {
+                "name": "AC 3 Ausgang Spannung"
+            },
+            "ac_eco_mode": {
+                "name": "AC ECO-Modus"
+            },
+            "ac_eco_switch": {
+                "name": "AC ECO-Schalter"
+            },
+            "ac_i_f": {
+                "name": "AC Eingang Fehler"
+            },
+            "ac_1_i_c": {
+                "name": "AC 1 Eingang Strom"
+            },
+            "ac_1_i_p": {
+                "name": "AC 1 Eingang Leistung"
+            },
+            "ac_1_i_v": {
+                "name": "AC 1 Eingang Spannung"
+            },
+            "ac_2_i_c": {
+                "name": "AC 2 Eingang Strom"
+            },
+            "ac_2_i_p": {
+                "name": "AC 2 Eingang Leistung"
+            },
+            "ac_2_i_v": {
+                "name": "AC 2 Eingang Spannung"
+            },
+            "ac_3_i_c": {
+                "name": "AC 3 Eingang Strom"
+            },
+            "ac_3_i_p": {
+                "name": "AC 3 Eingang Leistung"
+            },
+            "ac_3_i_v": {
+                "name": "AC 3 Eingang Spannung"
+            },
+            "ac_i_p_total": {
+                "name": "AC Eingang Gesamtleistung"
+            },
+            "ac_o_e_total": {
+                "name": "AC Ausgang Gesamtenergie"
+            },
+            "ac_o_f": {
+                "name": "AC Ausgang Fehler"
+            },
+            "ac_o_mode": {
+                "name": "AC Ausgangsmodus"
+            },
+            "ac_o_p_total": {
+                "name": "AC Ausgang Gesamtleistung"
+            },
+            "ac_o_switch": {
+                "name": "AC Ausgang Schalter"
+            },
+            "ac_power_lifting_switch": {
+                "name": "AC Power-Lifting-Schalter"
+            },
+            "ac_ups_mode": {
+                "name": "AC USV-Modus"
+            },
+            "b_c": {
+                "name": "Batterie Strom"
+            },
+            "b_c_total": {
+                "name": "Batterie Gesamtstrom"
+            },
+            "b_cell_count": {
+                "name": "Batterie Zellenanzahl"
+            },
+            "b_cycle_count": {
+                "name": "Batterie Zyklenanzahl"
+            },
+            "b_i_e": {
+                "name": "Batterie Ladeenergie"
+            },
+            "b_ntc_count": {
+                "name": "Batterie NTC-Sensoranzahl"
+            },
+            "b_o_e": {
+                "name": "Batterie Entladeenergie"
+            },
+            "b_soc": {
+                "name": "Batterie Ladezustand (SOC)"
+            },
+            "b_soc_high": {
+                "name": "Batterie SOC Max"
+            },
+            "b_soc_low": {
+                "name": "Batterie SOC Min"
+            },
+            "b_soc_total": {
+                "name": "Batterie Gesamter SOC"
+            },
+            "b_soh": {
+                "name": "Batterie Gesundheitszustand (SOH)"
+            },
+            "b_soh_total": {
+                "name": "Batterie Gesamter SOH"
+            },
+            "b_t_avg": {
+                "name": "Batterie Durchschnittstemperatur"
+            },
+            "b_type": {
+                "name": "Batterietyp"
+            },
+            "b_v": {
+                "name": "Batterie Spannung"
+            },
+            "b_v_total": {
+                "name": "Batterie Gesamtspannung"
+            },
+            "b_ver_bms": {
+                "name": "BMS Firmware-Version"
+            },
+            "d_charging_mode": {
+                "name": "Lademodus"
+            },
+            "d_display_mode": {
+                "name": "Anzeigemodus"
+            },
+            "d_i_e_total": {
+                "name": "Gesamtenergie Eingang"
+            },
+            "d_inverter_fault": {
+                "name": "Wechselrichter Fehler"
+            },
+            "d_inverter_status": {
+                "name": "Wechselrichter Status"
+            },
+            "d_inverter_total": {
+                "name": "Wechselrichter Gesamt"
+            },
+            "d_inverter_type": {
+                "name": "Wechselrichtertyp"
+            },
+            "d_inverter_warning": {
+                "name": "Wechselrichter Warnung"
+            },
+            "d_led_mode": {
+                "name": "LED-Modus"
+            },
+            "d_num_battery_packs": {
+                "name": "Anzahl der Batteriemodule"
+            },
+            "d_num_inverters": {
+                "name": "Anzahl der Wechselrichter"
+            },
+            "d_power_off": {
+                "name": "Ausschalten"
+            },
+            "d_serial": {
+                "name": "Seriennummer"
+            },
+            "d_split_phase_switch": {
+                "name": "Split-Phase-Schalter"
+            },
+            "d_split_phase_mode": {
+                "name": "Split-Phase-Modus"
+            },
+            "d_time_remaining": {
+                "name": "Verbleibende Zeit"
+            },
+            "d_ver_arm": {
+                "name": "ARM Firmware-Version"
+            },
+            "d_ver_dsp": {
+                "name": "DSP Firmware-Version"
+            },
+            "dc_eco_mode": {
+                "name": "DC ECO-Modus"
+            },
+            "dc_eco_switch": {
+                "name": "DC ECO-Schalter"
+            },
+            "dc_i_c": {
+                "name": "DC Eingang Strom"
+            },
+            "dc_i_p_total": {
+                "name": "DC Eingang Gesamtleistung"
+            },
+            "dc_i_v": {
+                "name": "DC Eingang Spannung"
+            },
+            "dc_o_p_total": {
+                "name": "DC Ausgang Gesamtleistung"
+            },
+            "dc_o_switch": {
+                "name": "DC Ausgang Schalter"
+            },
+            "g_i_e_total": {
+                "name": "Generator Gesamtenergie Eingang"
+            },
+            "g_i_f": {
+                "name": "Generator Eingang Fehler"
+            },
+            "g_i_p_total": {
+                "name": "Generator Gesamtleistung Eingang"
+            },
+            "g_i_switch": {
+                "name": "Generator Eingang Schalter"
+            },
+            "g_o_e_total": {
+                "name": "Generator Gesamtenergie Ausgang"
+            },
+            "g_o_switch": {
+                "name": "Generator Ausgang Schalter"
+            },
+            "pv_1_i_c": {
+                "name": "PV 1 Eingang Strom"
+            },
+            "pv_1_i_p": {
+                "name": "PV 1 Eingang Leistung"
+            },
+            "pv_1_i_v": {
+                "name": "PV 1 Eingang Spannung"
+            },
+            "pv_2_i_c": {
+                "name": "PV 2 Eingang Strom"
+            },
+            "pv_2_i_p": {
+                "name": "PV 2 Eingang Leistung"
+            },
+            "pv_2_i_v": {
+                "name": "PV 2 Eingang Spannung"
+            },
+            "pv_3_i_c": {
+                "name": "PV 3 Eingang Strom"
+            },
+            "pv_3_i_p": {
+                "name": "PV 3 Eingang Leistung"
+            },
+            "pv_3_i_v": {
+                "name": "PV 3 Eingang Spannung"
+            },
+            "pv_4_i_c": {
+                "name": "PV 4 Eingang Strom"
+            },
+            "pv_4_i_p": {
+                "name": "PV 4 Eingang Leistung"
+            },
+            "pv_4_i_v": {
+                "name": "PV 4 Eingang Spannung"
+            },
+            "pv_5_i_c": {
+                "name": "PV 5 Eingang Strom"
+            },
+            "pv_5_i_p": {
+                "name": "PV 5 Eingang Leistung"
+            },
+            "pv_5_i_v": {
+                "name": "PV 5 Eingang Spannung"
+            },
+            "pv_ac_e": {
+                "name": "PV-zu-AC Energie"
+            },
+            "pv_ac_p": {
+                "name": "PV-zu-AC Leistung"
+            },
+            "pv_i_e_total": {
+                "name": "PV Gesamtenergie Eingang"
+            },
+            "pv_i_p_total": {
+                "name": "PV Gesamtleistung Eingang"
+            }
+        }
+    }
+}
