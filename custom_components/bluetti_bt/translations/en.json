@@ -17,295 +17,295 @@
     "entity": {
         "sensor": {
             "ac_1_o_c": {
-                "name": "AC 1 Ausgang Strom"
+                "name": "AC 1 Output Current"
             },
             "ac_1_o_p": {
-                "name": "AC 1 Ausgang Leistung"
+                "name": "AC 1 Output Power"
             },
             "ac_1_o_v": {
-                "name": "AC 1 Ausgang Spannung"
+                "name": "AC 1 Output Voltage"
             },
             "ac_2_o_c": {
-                "name": "AC 2 Ausgang Strom"
+                "name": "AC 2 Output Current"
             },
             "ac_2_o_p": {
-                "name": "AC 2 Ausgang Leistung"
+                "name": "AC 2 Output Power"
             },
             "ac_2_o_v": {
-                "name": "AC 2 Ausgang Spannung"
+                "name": "AC 2 Output Voltage"
             },
             "ac_3_o_c": {
-                "name": "AC 3 Ausgang Strom"
+                "name": "AC 3 Output Current"
             },
             "ac_3_o_p": {
-                "name": "AC 3 Ausgang Leistung"
+                "name": "AC 3 Output Power"
             },
             "ac_3_o_v": {
-                "name": "AC 3 Ausgang Spannung"
+                "name": "AC 3 Output Voltage"
             },
             "ac_eco_mode": {
-                "name": "AC ECO-Modus"
+                "name": "AC ECO Mode"
             },
             "ac_eco_switch": {
-                "name": "AC ECO-Schalter"
+                "name": "AC ECO Switch"
             },
             "ac_i_f": {
-                "name": "AC Eingang Fehler"
+                "name": "AC Input Fault"
             },
             "ac_1_i_c": {
-                "name": "AC 1 Eingang Strom"
+                "name": "AC 1 Input Current"
             },
             "ac_1_i_p": {
-                "name": "AC 1 Eingang Leistung"
+                "name": "AC 1 Input Power"
             },
             "ac_1_i_v": {
-                "name": "AC 1 Eingang Spannung"
+                "name": "AC 1 Input Voltage"
             },
             "ac_2_i_c": {
-                "name": "AC 2 Eingang Strom"
+                "name": "AC 2 Input Current"
             },
             "ac_2_i_p": {
-                "name": "AC 2 Eingang Leistung"
+                "name": "AC 2 Input Power"
             },
             "ac_2_i_v": {
-                "name": "AC 2 Eingang Spannung"
+                "name": "AC 2 Input Voltage"
             },
             "ac_3_i_c": {
-                "name": "AC 3 Eingang Strom"
+                "name": "AC 3 Input Current"
             },
             "ac_3_i_p": {
-                "name": "AC 3 Eingang Leistung"
+                "name": "AC 3 Input Power"
             },
             "ac_3_i_v": {
-                "name": "AC 3 Eingang Spannung"
+                "name": "AC 3 Input Voltage"
             },
             "ac_i_p_total": {
-                "name": "AC Eingang Gesamtleistung"
+                "name": "AC Input Power Total"
             },
             "ac_o_e_total": {
-                "name": "AC Ausgang Gesamtenergie"
+                "name": "AC Output Energy Total"
             },
             "ac_o_f": {
-                "name": "AC Ausgang Fehler"
+                "name": "AC Output Fault"
             },
             "ac_o_mode": {
-                "name": "AC Ausgangsmodus"
+                "name": "AC Output Mode"
             },
             "ac_o_p_total": {
-                "name": "AC Ausgang Gesamtleistung"
+                "name": "AC Output Power Total"
             },
             "ac_o_switch": {
-                "name": "AC Ausgang Schalter"
+                "name": "AC Output Switch"
             },
             "ac_power_lifting_switch": {
-                "name": "AC Power-Lifting-Schalter"
+                "name": "AC Power Lifting Switch"
             },
             "ac_ups_mode": {
-                "name": "AC USV-Modus"
+                "name": "AC UPS Mode"
             },
             "b_c": {
-                "name": "Batterie Strom"
+                "name": "Battery Current"
             },
             "b_c_total": {
-                "name": "Batterie Gesamtstrom"
+                "name": "Battery Current Total"
             },
             "b_cell_count": {
-                "name": "Batterie Zellenanzahl"
+                "name": "Battery Cell Count"
             },
             "b_cycle_count": {
-                "name": "Batterie Zyklenanzahl"
+                "name": "Battery Cycle Count"
             },
             "b_i_e": {
-                "name": "Batterie Ladeenergie"
+                "name": "Battery Input Energy"
             },
             "b_ntc_count": {
-                "name": "Batterie NTC-Sensoranzahl"
+                "name": "Battery NTC Count"
             },
             "b_o_e": {
-                "name": "Batterie Entladeenergie"
+                "name": "Battery Output Energy"
             },
             "b_soc": {
-                "name": "Batterie Ladezustand (SOC)"
+                "name": "Battery SOC"
             },
             "b_soc_high": {
-                "name": "Batterie SOC Max"
+                "name": "Battery SOC High"
             },
             "b_soc_low": {
-                "name": "Batterie SOC Min"
+                "name": "Battery SOC Low"
             },
             "b_soc_total": {
-                "name": "Batterie Gesamter SOC"
+                "name": "Battery SOC Total"
             },
             "b_soh": {
-                "name": "Batterie Gesundheitszustand (SOH)"
+                "name": "Battery SOH"
             },
             "b_soh_total": {
-                "name": "Batterie Gesamter SOH"
+                "name": "Battery SOH Total"
             },
             "b_t_avg": {
-                "name": "Batterie Durchschnittstemperatur"
+                "name": "Battery Temperature Average"
             },
             "b_type": {
-                "name": "Batterietyp"
+                "name": "Battery Type"
             },
             "b_v": {
-                "name": "Batterie Spannung"
+                "name": "Battery Voltage"
             },
             "b_v_total": {
-                "name": "Batterie Gesamtspannung"
+                "name": "Battery Voltage Total"
             },
             "b_ver_bms": {
-                "name": "BMS Firmware-Version"
+                "name": "Battery BMS Version"
             },
             "d_charging_mode": {
-                "name": "Lademodus"
+                "name": "Charging Mode"
             },
             "d_display_mode": {
-                "name": "Anzeigemodus"
+                "name": "Display Mode"
             },
             "d_i_e_total": {
-                "name": "Gesamtenergie Eingang"
+                "name": "Total Energy In"
             },
             "d_inverter_fault": {
-                "name": "Wechselrichter Fehler"
+                "name": "Inverter Fault"
             },
             "d_inverter_status": {
-                "name": "Wechselrichter Status"
+                "name": "Inverter Status"
             },
             "d_inverter_total": {
-                "name": "Wechselrichter Gesamt"
+                "name": "Inverter Total"
             },
             "d_inverter_type": {
-                "name": "Wechselrichtertyp"
+                "name": "Inverter Type"
             },
             "d_inverter_warning": {
-                "name": "Wechselrichter Warnung"
+                "name": "Inverter Warning"
             },
             "d_led_mode": {
-                "name": "LED-Modus"
+                "name": "LED Mode"
             },
             "d_num_battery_packs": {
-                "name": "Anzahl der Batteriemodule"
+                "name": "Number of Battery Packs"
             },
             "d_num_inverters": {
-                "name": "Anzahl der Wechselrichter"
+                "name": "Number of Inverters"
             },
             "d_power_off": {
-                "name": "Ausschalten"
+                "name": "Power Off"
             },
             "d_serial": {
-                "name": "Seriennummer"
+                "name": "Serial Number"
             },
             "d_split_phase_switch": {
-                "name": "Split-Phase-Schalter"
+                "name": "Split Phase Switch"
             },
             "d_split_phase_mode": {
-                "name": "Split-Phase-Modus"
+                "name": "Split Phase Mode"
             },
             "d_time_remaining": {
-                "name": "Verbleibende Zeit"
+                "name": "Time Remaining"
             },
             "d_ver_arm": {
-                "name": "ARM Firmware-Version"
+                "name": "ARM Version"
             },
             "d_ver_dsp": {
-                "name": "DSP Firmware-Version"
+                "name": "DSP Version"
             },
             "dc_eco_mode": {
-                "name": "DC ECO-Modus"
+                "name": "DC ECO Mode"
             },
             "dc_eco_switch": {
-                "name": "DC ECO-Schalter"
+                "name": "DC ECO Switch"
             },
             "dc_i_c": {
-                "name": "DC Eingang Strom"
+                "name": "DC Input Current"
             },
             "dc_i_p_total": {
-                "name": "DC Eingang Gesamtleistung"
+                "name": "DC Input Power Total"
             },
             "dc_i_v": {
-                "name": "DC Eingang Spannung"
+                "name": "DC Input Voltage"
             },
             "dc_o_p_total": {
-                "name": "DC Ausgang Gesamtleistung"
+                "name": "DC Output Power Total"
             },
             "dc_o_switch": {
-                "name": "DC Ausgang Schalter"
+                "name": "DC Output Switch"
             },
             "g_i_e_total": {
-                "name": "Generator Gesamtenergie Eingang"
+                "name": "Generator Input Energy Total"
             },
             "g_i_f": {
-                "name": "Generator Eingang Fehler"
+                "name": "Generator Input Fault"
             },
             "g_i_p_total": {
-                "name": "Generator Gesamtleistung Eingang"
+                "name": "Generator Input Power Total"
             },
             "g_i_switch": {
-                "name": "Generator Eingang Schalter"
+                "name": "Generator Input Switch"
             },
             "g_o_e_total": {
-                "name": "Generator Gesamtenergie Ausgang"
+                "name": "Generator Output Energy Total"
             },
             "g_o_switch": {
-                "name": "Generator Ausgang Schalter"
+                "name": "Generator Output Switch"
             },
             "pv_1_i_c": {
-                "name": "PV 1 Eingang Strom"
+                "name": "PV 1 Input Current"
             },
             "pv_1_i_p": {
-                "name": "PV 1 Eingang Leistung"
+                "name": "PV 1 Input Power"
             },
             "pv_1_i_v": {
-                "name": "PV 1 Eingang Spannung"
+                "name": "PV 1 Input Voltage"
             },
             "pv_2_i_c": {
-                "name": "PV 2 Eingang Strom"
+                "name": "PV 2 Input Current"
             },
             "pv_2_i_p": {
-                "name": "PV 2 Eingang Leistung"
+                "name": "PV 2 Input Power"
             },
             "pv_2_i_v": {
-                "name": "PV 2 Eingang Spannung"
+                "name": "PV 2 Input Voltage"
             },
             "pv_3_i_c": {
-                "name": "PV 3 Eingang Strom"
+                "name": "PV 3 Input Current"
             },
             "pv_3_i_p": {
-                "name": "PV 3 Eingang Leistung"
+                "name": "PV 3 Input Power"
             },
             "pv_3_i_v": {
-                "name": "PV 3 Eingang Spannung"
+                "name": "PV 3 Input Voltage"
             },
             "pv_4_i_c": {
-                "name": "PV 4 Eingang Strom"
+                "name": "PV 4 Input Current"
             },
             "pv_4_i_p": {
-                "name": "PV 4 Eingang Leistung"
+                "name": "PV 4 Input Power"
             },
             "pv_4_i_v": {
-                "name": "PV 4 Eingang Spannung"
+                "name": "PV 4 Input Voltage"
             },
             "pv_5_i_c": {
-                "name": "PV 5 Eingang Strom"
+                "name": "PV 5 Input Current"
             },
             "pv_5_i_p": {
-                "name": "PV 5 Eingang Leistung"
+                "name": "PV 5 Input Power"
             },
             "pv_5_i_v": {
-                "name": "PV 5 Eingang Spannung"
+                "name": "PV 5 Input Voltage"
             },
             "pv_ac_e": {
-                "name": "PV-zu-AC Energie"
+                "name": "PV-AC Energy"
             },
             "pv_ac_p": {
-                "name": "PV-zu-AC Leistung"
+                "name": "PV-AC Power"
             },
             "pv_i_e_total": {
-                "name": "PV Gesamtenergie Eingang"
+                "name": "PV Input Energy Total"
             },
             "pv_i_p_total": {
-                "name": "PV Gesamtleistung Eingang"
+                "name": "PV Input Power Total"
             }
         }
     }

@@ -63,8 +63,10 @@ for locale, translations in t_json.items():
     match (locale):
         case "en":
             t_en["entity"] = t_entity
+            break
         case "de":
             t_de["entity"] = t_entity
+            break
 
 with open("custom_components/bluetti_bt/strings.json", "w") as f:
     json.dump(t_en, f, indent=4)
