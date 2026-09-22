@@ -61,21 +61,22 @@ for proto in p_json:
 
         f_name = FieldName(field["name"])
 
-        line = f"""{f_name}: {{
-        "unit": {f'"{field["unit"]}"' if "unit" in field.keys() else "None"},
-        "category": {f'EntityCategory.{field["category"].upper()}' if "category" in field.keys() else "None"},
-        "device_class": {f'"{field["sensor"]}"' if "sensor" in field.keys() else "None"},
-        "state_class": {f'"{field["state_type"]}"' if "state_type" in field.keys() else "None"},
-    }},"""
+        line = f"""{f_name}: DetailsMapping(
+        unit={f'"{field["unit"]}"' if "unit" in field.keys() else "None"},
+        category={f'EntityCategory.{field["category"].upper()}' if "category" in field.keys() else "None"},
+        device_class={f'SensorDeviceClass.{field["sensor"].upper()}' if "sensor" in field.keys() else "None"},
+        state_class={f'SensorStateClass.{field["state_type"].upper()}' if "state_type" in field.keys() else "None"},
+    ),"""
 
         details.append(line)
 
 const_py = f"""\"\"\"Constants for the Bluetti BT integration.\"\"\"
 
-from typing import Literal
+from dataclasses import dataclass
 
 from bluetti_bt_lib import FieldName
 
+from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory
 
 DOMAIN = "bluetti_bt"
@@ -83,11 +84,18 @@ DOMAIN = "bluetti_bt"
 CONF_ENCRYPTION = "encryption"
 CONF_SERIAL = "serial"
 
-type DetailName = Literal["unit", "category", "device_class", "state_class"]
-type EntityDetails = dict[DetailName, str]
-type EntityDetailsMap = dict[FieldName, EntityDetails]
 
-ENTITY_DETAILS_MAPPING: EntityDetailsMap = {{
+@dataclass
+class DetailsMapping:
+    \"\"\"Details Mapping for Entities.\"\"\"
+
+    unit: str | None
+    category: EntityCategory | None
+    device_class: SensorDeviceClass | None
+    state_class: SensorStateClass | None
+
+
+ENTITY_DETAILS_MAPPING: dict[FieldName, DetailsMapping] = {{
     {'\n\t'.join(details)}
 }}
 """.replace(

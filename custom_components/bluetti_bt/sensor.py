@@ -14,7 +14,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_SERIAL, DOMAIN, ENTITY_DETAILS_MAPPING, EntityDetails
+from .const import CONF_SERIAL, DOMAIN, ENTITY_DETAILS_MAPPING, DetailsMapping
 from .coordinator import BluettiBtConfigEntry, PollingCoordinator
 
 
@@ -56,7 +56,7 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
         coordinator: PollingCoordinator,
         device_info: DeviceInfo,
         field_name: str,
-        details: EntityDetails,
+        details: DetailsMapping,
     ) -> None:
         """Init sensor entity."""
 
@@ -67,10 +67,10 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
         self._attr_has_entity_name = True
         self._attr_translation_key = field_name
 
-        self._attr_native_unit_of_measurement = details["unit"]
-        self._attr_entity_category = details["category"]
-        self._attr_device_class = details["device_class"]
-        self._attr_state_class = details["state_class"]
+        self._attr_native_unit_of_measurement = details.unit
+        self._attr_entity_category = details.category
+        self._attr_device_class = details.device_class
+        self._attr_state_class = details.state_class
 
         self._logger = logging.getLogger(f"{DOMAIN}")
 
