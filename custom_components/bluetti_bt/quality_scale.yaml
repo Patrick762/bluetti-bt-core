@@ -9,7 +9,7 @@ rules:
   appropriate-polling: done
   brands: done
   common-modules: done
-  config-flow-test-coverage: todo
+  config-flow-test-coverage: todo # THIS
   config-flow: done
   dependency-transparency: done
   docs-actions:

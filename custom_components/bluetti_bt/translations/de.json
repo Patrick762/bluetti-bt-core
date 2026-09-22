@@ -1,18 +1,18 @@
 {
-    "config": {
-        "abort": {
-            "already_configured": "",
-            "unsupported_device": "Ger\u00e4t wird nicht unterst\u00fctzt",
-            "no_unconfigured_devices": "Keine unkonfigurierten Ger\u00e4te"
-        },
-        "step": {
-            "user": {
-                "description": "M\u00f6chtest du das Ger\u00e4t hinzuf\u00fcgen?"
-            },
-            "reconfigure": {
-                "description": "M\u00f6chtest du das Ger\u00e4t neu konfigurieren?"
-            }
-        }
+  "config": {
+    "abort": {
+      "already_configured": "",
+      "no_unconfigured_devices": "Keine unkonfigurierten Ger\u00e4te",
+      "unsupported_device": "Ger\u00e4t wird nicht unterst\u00fctzt"
     },
-    "entity": {}
+    "step": {
+      "reconfigure": {
+        "description": "M\u00f6chtest du das Ger\u00e4t neu konfigurieren?"
+      },
+      "user": {
+        "description": "M\u00f6chtest du das Ger\u00e4t hinzuf\u00fcgen?"
+      }
+    }
+  },
+  "entity": {}
 }

@@ -4,21 +4,27 @@ import json
 import requests
 from typing import Literal
 
+# from custom_components.bluetti_bt.const import EntityDetailsMap
+from bluetti_bt_lib import FieldName
+
 t_url = "https://patrick762.github.io/bluetti-registers/translations.json"
 p_url = "https://patrick762.github.io/bluetti-registers/protocols.json"
 
 t_json: dict[str, dict[str, str]] = requests.get(t_url).json()
+p_json: list[dict[Literal["version", "comm_type", "fields"], str | int | dict]] = (
+    requests.get(p_url).json()
+)
 
 t_en = {
     "config": {
         "abort": {
             "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-            "unsupported_device": "Unsupported device",
             "no_unconfigured_devices": "No unconfigured devices",
+            "unsupported_device": "Unsupported device",
         },
         "step": {
-            "user": {"description": "Do you want to add this device?"},
             "reconfigure": {"description": "Do you want to reconfigure this device?"},
+            "user": {"description": "Do you want to add this device?"},
         },
     },
     "entity": {},
@@ -28,12 +34,12 @@ t_de = {
     "config": {
         "abort": {
             "already_configured": "",
-            "unsupported_device": "Gerät wird nicht unterstützt",
             "no_unconfigured_devices": "Keine unkonfigurierten Geräte",
+            "unsupported_device": "Gerät wird nicht unterstützt",
         },
         "step": {
-            "user": {"description": "Möchtest du das Gerät hinzufügen?"},
             "reconfigure": {"description": "Möchtest du das Gerät neu konfigurieren?"},
+            "user": {"description": "Möchtest du das Gerät hinzufügen?"},
         },
     },
     "entity": {},
@@ -43,8 +49,58 @@ type EntityType = Literal["binary_sensor", "sensor", "switch", "select"]
 type EntityTranslations = dict[EntityType, dict[str, dict[Literal["name"], str]]]
 
 
+details = []
+
+for proto in p_json:
+    if proto["comm_type"] != "bt":
+        continue
+
+    for field in proto["fields"]:
+        if field["name"] not in FieldName:
+            continue
+
+        f_name = FieldName(field["name"])
+
+        line = f"""{f_name}: {{
+        "unit": {f'"{field["unit"]}"' if "unit" in field.keys() else "None"},
+        "category": {f'EntityCategory.{field["category"].upper()}' if "category" in field.keys() else "None"},
+        "device_class": {f'"{field["sensor"]}"' if "sensor" in field.keys() else "None"},
+        "state_class": {f'"{field["state_type"]}"' if "state_type" in field.keys() else "None"},
+    }},"""
+
+        details.append(line)
+
+const_py = f"""\"\"\"Constants for the Bluetti BT integration.\"\"\"
+
+from typing import Literal
+
+from bluetti_bt_lib import FieldName
+
+from homeassistant.const import EntityCategory
+
+DOMAIN = "bluetti_bt"
+
+CONF_ENCRYPTION = "encryption"
+CONF_SERIAL = "serial"
+
+type DetailName = Literal["unit", "category", "device_class", "state_class"]
+type EntityDetails = dict[DetailName, str]
+type EntityDetailsMap = dict[FieldName, EntityDetails]
+
+ENTITY_DETAILS_MAPPING: EntityDetailsMap = {{
+    {'\n\t'.join(details)}
+}}
+""".replace(
+    "\t", "    "
+)
+
+with open("custom_components/bluetti_bt/const.py", "w") as f:
+    f.write(const_py)
+    f.close()
+
+
 def get_type(field_name: str) -> EntityType:
-    # TODO
+    # TODO based on p_json
     return "sensor"
 
 
@@ -69,15 +125,15 @@ for locale, translations in t_json.items():
             break
 
 with open("custom_components/bluetti_bt/strings.json", "w") as f:
-    json.dump(t_en, f, indent=4)
+    json.dump(t_en, f, indent=2)
     f.close()
 
 # Custom component only
 
 with open("custom_components/bluetti_bt/translations/en.json", "w") as f:
-    json.dump(t_en, f, indent=4)
+    json.dump(t_en, f, indent=2)
     f.close()
 
 with open("custom_components/bluetti_bt/translations/de.json", "w") as f:
-    json.dump(t_de, f, indent=4)
+    json.dump(t_de, f, indent=2)
     f.close()
