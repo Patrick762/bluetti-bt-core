@@ -49,7 +49,7 @@ type EntityType = Literal["binary_sensor", "sensor", "switch", "select"]
 type EntityTranslations = dict[EntityType, dict[str, dict[Literal["name"], str]]]
 
 
-details = []
+details = {}
 
 for proto in p_json:
     if proto["comm_type"] != "bt":
@@ -68,7 +68,9 @@ for proto in p_json:
         state_class={f'SensorStateClass.{field["state_type"].upper()}' if "state_type" in field.keys() else "None"},
     ),"""
 
-        details.append(line)
+        details[f_name] = line
+
+details = [l for l in details.values()]
 
 const_py = f"""\"\"\"Constants for the Bluetti BT integration.\"\"\"
 
@@ -112,10 +114,28 @@ def get_type(field_name: str) -> EntityType:
     return "sensor"
 
 
+def is_needed(field_name: str) -> bool:
+    # TODO check if translation is needed for bluetooth
+    result = False
+
+    for proto in p_json:
+        if proto["comm_type"] != "bt":
+            continue
+
+        for field in proto["fields"]:
+            if field["name"] == field_name:
+                result = True
+
+    return result
+
+
 t_entity: EntityTranslations = {}
 
 for locale, translations in t_json.items():
     for field_name, value in translations.items():
+        if not is_needed(field_name):
+            continue
+
         f_type = get_type(field_name)
 
         if f_type not in t_entity.keys():
