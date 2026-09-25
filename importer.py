@@ -19,7 +19,9 @@ t_en = {
     "config": {
         "abort": {
             "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+            "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
             "no_unconfigured_devices": "No unconfigured devices",
+            "unreachable": "[%key:common::config_flow::error::cannot_connect%]",
             "unsupported_device": "Unsupported device",
         },
         "step": {
@@ -33,8 +35,10 @@ t_en = {
 t_de = {
     "config": {
         "abort": {
-            "already_configured": "",
+            "already_configured": "Gerät ist schon konfiguriert",
+            "cannot_connect": "Verbindung fehlgeschlagen",
             "no_unconfigured_devices": "Keine unkonfigurierten Geräte",
+            "unreachable": "Verbindung fehlgeschlagen",
             "unsupported_device": "Gerät wird nicht unterstützt",
         },
         "step": {

@@ -1,8 +1,10 @@
 {
   "config": {
     "abort": {
-      "already_configured": "",
+      "already_configured": "Ger\u00e4t ist schon konfiguriert",
+      "cannot_connect": "Verbindung fehlgeschlagen",
       "no_unconfigured_devices": "Keine unkonfigurierten Ger\u00e4te",
+      "unreachable": "Verbindung fehlgeschlagen",
       "unsupported_device": "Ger\u00e4t wird nicht unterst\u00fctzt"
     },
     "step": {
