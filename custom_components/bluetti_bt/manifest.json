@@ -19,7 +19,7 @@
   "issue_tracker": "https://github.com/Patrick762/bluetti-bt-core/issues",
   "quality_scale": "bronze",
   "requirements": [
-    "bluetti-bt-lib==0.2.0b5"
+    "bluetti-bt-lib==0.2.0b6"
   ],
   "version": "1.0.0"
 }
