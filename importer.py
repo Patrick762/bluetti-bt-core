@@ -115,7 +115,6 @@ def get_type(field_name: str) -> EntityType:
 
 
 def is_needed(field_name: str) -> bool:
-    # TODO check if translation is needed for bluetooth
     result = False
 
     for proto in p_json:
@@ -123,6 +122,9 @@ def is_needed(field_name: str) -> bool:
             continue
 
         for field in proto["fields"]:
+            if field["name"] not in FieldName:
+                continue
+
             if field["name"] == field_name:
                 result = True
 
