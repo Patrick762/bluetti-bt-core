@@ -58,7 +58,6 @@ class PollingCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from bluetooth device."""
 
-        # Check if device is connected
         if (
             bluetooth.async_address_present(self.hass, str(self.mac), connectable=True)
             is False
