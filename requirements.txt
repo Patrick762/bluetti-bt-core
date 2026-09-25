@@ -1,4 +1,4 @@
 homeassistant
 probatio
 pytest
-bluetti-bt-lib==0.2.0b3
+bluetti-bt-lib==0.2.0b5
