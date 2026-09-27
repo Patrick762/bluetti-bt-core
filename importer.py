@@ -66,10 +66,10 @@ for proto in p_json:
         f_name = FieldName(field["name"])
 
         line = f"""{f_name}: DetailsMapping(
-        unit={f'"{field["unit"]}"' if "unit" in field.keys() else "None"},
-        category={f'EntityCategory.{field["category"].upper()}' if "category" in field.keys() else "None"},
-        device_class={f'SensorDeviceClass.{field["sensor"].upper()}' if "sensor" in field.keys() else "None"},
-        state_class={f'SensorStateClass.{field["state_type"].upper()}' if "state_type" in field.keys() else "None"},
+        {f'unit="{field["unit"]}",' if "unit" in field.keys() else ""}
+        {f'category=EntityCategory.{field["category"].upper()},' if ("category" in field.keys() and field["category"] != "config") else ""}
+        {f'device_class=SensorDeviceClass.{field["sensor"].upper()},' if "sensor" in field.keys() else ""}
+        {f'state_class=SensorStateClass.{field["state_type"].upper()},' if "state_type" in field.keys() else ""}
     ),"""
 
         details[f_name] = line
@@ -95,10 +95,10 @@ CONF_SERIAL = "serial"
 class DetailsMapping:
     \"\"\"Details Mapping for Entities.\"\"\"
 
-    unit: str | None
-    category: EntityCategory | None
-    device_class: SensorDeviceClass | None
-    state_class: SensorStateClass | None
+    unit: str | None = None
+    category: EntityCategory | None = None
+    device_class: SensorDeviceClass | None = None
+    state_class: SensorStateClass | None = None
 
 
 ENTITY_DETAILS_MAPPING: dict[FieldName, DetailsMapping] = {{
