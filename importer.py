@@ -65,12 +65,21 @@ for proto in p_json:
 
         f_name = FieldName(field["name"])
 
-        line = f"""{f_name}: DetailsMapping(
-        {f'unit="{field["unit"]}",' if "unit" in field.keys() else ""}
-        {f'category=EntityCategory.{field["category"].upper()},' if ("category" in field.keys() and field["category"] != "config") else ""}
-        {f'device_class=SensorDeviceClass.{field["sensor"].upper()},' if "sensor" in field.keys() else ""}
-        {f'state_class=SensorStateClass.{field["state_type"].upper()},' if "state_type" in field.keys() else ""}
-    ),"""
+        args = []
+        if "unit" in field:
+            args.append(f'unit="{field["unit"]}"')
+        if "category" in field and field["category"] != "config":
+            args.append(f'category=EntityCategory.{field["category"].upper()}')
+        if "sensor" in field:
+            args.append(f'device_class=SensorDeviceClass.{field["sensor"].upper()}')
+        if "state_type" in field:
+            args.append(f'state_class=SensorStateClass.{field["state_type"].upper()}')
+
+        if args:
+            body = "".join(f"\n        {a}," for a in args)
+            line = f"{f_name}: DetailsMapping({body}\n    ),"
+        else:
+            line = f"{f_name}: DetailsMapping(),"
 
         details[f_name] = line
 
@@ -116,45 +125,31 @@ def get_type(field_name: str) -> EntityType:
     return "sensor"
 
 
-def is_needed(field_name: str) -> bool:
-    result = False
-
-    for proto in p_json:
-        if proto["comm_type"] != "bt":
-            continue
-
-        for field in proto["fields"]:
-            if field["name"] not in FieldName:
-                continue
-
-            if field["name"] == field_name:
-                result = True
-
-    return result
+needed_fields: set[str] = {
+    field["name"]
+    for proto in p_json
+    if proto["comm_type"] == "bt"
+    for field in proto["fields"]
+    if field["name"] in FieldName
+}
 
 
-t_entity: EntityTranslations = {}
+def build_entity_translations(translations: dict[str, str]) -> EntityTranslations:
+    t_entity: EntityTranslations = {}
 
-for locale, translations in t_json.items():
     for field_name, value in translations.items():
-        if not is_needed(field_name):
+        if field_name not in needed_fields:
             continue
 
         f_type = get_type(field_name)
+        t_entity.setdefault(f_type, {})[field_name] = {"name": value}
 
-        if f_type not in t_entity.keys():
-            t_entity.setdefault(f_type, {})
+    return t_entity
 
-        t_entity[f_type].setdefault(field_name, {})
-        t_entity[f_type][field_name]["name"] = value
 
-    match (locale):
-        case "en":
-            t_en["entity"] = t_entity
-            break
-        case "de":
-            t_de["entity"] = t_entity
-            break
+for locale, target in (("en", t_en), ("de", t_de)):
+    if locale in t_json:
+        target["entity"] = build_entity_translations(t_json[locale])
 
 with open("custom_components/bluetti_bluetooth/strings.json", "w") as f:
     json.dump(t_en, f, indent=2)
