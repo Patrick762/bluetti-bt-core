@@ -18,6 +18,15 @@
   },
   "entity": {
     "sensor": {
+      "ac_1_i_c": {
+        "name": "AC 1 Input Current"
+      },
+      "ac_1_i_p": {
+        "name": "AC 1 Input Power"
+      },
+      "ac_1_i_v": {
+        "name": "AC 1 Input Voltage"
+      },
       "ac_1_o_c": {
         "name": "AC 1 Output Current"
       },
@@ -27,6 +36,15 @@
       "ac_1_o_v": {
         "name": "AC 1 Output Voltage"
       },
+      "ac_2_i_c": {
+        "name": "AC 2 Input Current"
+      },
+      "ac_2_i_p": {
+        "name": "AC 2 Input Power"
+      },
+      "ac_2_i_v": {
+        "name": "AC 2 Input Voltage"
+      },
       "ac_2_o_c": {
         "name": "AC 2 Output Current"
       },
@@ -35,6 +53,15 @@
       },
       "ac_2_o_v": {
         "name": "AC 2 Output Voltage"
+      },
+      "ac_3_i_c": {
+        "name": "AC 3 Input Current"
+      },
+      "ac_3_i_p": {
+        "name": "AC 3 Input Power"
+      },
+      "ac_3_i_v": {
+        "name": "AC 3 Input Voltage"
       },
       "ac_3_o_c": {
         "name": "AC 3 Output Current"
@@ -53,33 +80,6 @@
       },
       "ac_i_f": {
         "name": "AC Input Frequency"
-      },
-      "ac_1_i_c": {
-        "name": "AC 1 Input Current"
-      },
-      "ac_1_i_p": {
-        "name": "AC 1 Input Power"
-      },
-      "ac_1_i_v": {
-        "name": "AC 1 Input Voltage"
-      },
-      "ac_2_i_c": {
-        "name": "AC 2 Input Current"
-      },
-      "ac_2_i_p": {
-        "name": "AC 2 Input Power"
-      },
-      "ac_2_i_v": {
-        "name": "AC 2 Input Voltage"
-      },
-      "ac_3_i_c": {
-        "name": "AC 3 Input Current"
-      },
-      "ac_3_i_p": {
-        "name": "AC 3 Input Power"
-      },
-      "ac_3_i_v": {
-        "name": "AC 3 Input Voltage"
       },
       "ac_i_p_total": {
         "name": "AC Input Power Total"
@@ -135,11 +135,11 @@
       "d_serial": {
         "name": "Serial Number"
       },
-      "d_split_phase_switch": {
-        "name": "Split Phase Switch"
-      },
       "d_split_phase_mode": {
         "name": "Split Phase Mode"
+      },
+      "d_split_phase_switch": {
+        "name": "Split Phase Switch"
       },
       "d_time_remaining": {
         "name": "Time Remaining"

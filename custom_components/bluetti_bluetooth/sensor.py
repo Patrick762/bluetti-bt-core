@@ -1,4 +1,4 @@
-"""Sensor for Bluetti BT integration."""
+"""Sensor for Bluetti Bluetooth integration."""
 
 from decimal import Decimal
 from enum import Enum
@@ -10,12 +10,12 @@ from bluetti_bt_lib import FieldName
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import CONF_ADDRESS, CONF_MODEL
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import CONF_SERIAL, DOMAIN, ENTITY_DETAILS_MAPPING, DetailsMapping
-from .coordinator import BluettiBtConfigEntry, PollingCoordinator
+from .coordinator import BluettiBluetoothCoordinator, BluettiBtConfigEntry
 
 
 async def async_setup_entry(
@@ -33,6 +33,7 @@ async def async_setup_entry(
         manufacturer="Bluetti",
         model=entry.data.get(CONF_MODEL),
         serial_number=str(entry.data.get(CONF_SERIAL)),
+        connections={(CONNECTION_BLUETOOTH, entry.data.get(CONF_ADDRESS, ""))},
     )
 
     sensors_to_add: list[BluettiSensor] = [
@@ -53,7 +54,7 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
 
     def __init__(
         self,
-        coordinator: PollingCoordinator,
+        coordinator: BluettiBluetoothCoordinator,
         device_info: DeviceInfo,
         field_name: str,
         details: DetailsMapping,
@@ -62,7 +63,7 @@ class BluettiSensor(CoordinatorEntity, SensorEntity):
 
         super().__init__(coordinator)
         self.coordinator = coordinator
-        self._attr_unique_id = f"{device_info.get('serial_number')}_{field_name}"
+        self._attr_unique_id = f"{coordinator.mac_str}_{field_name}"
         self._attr_device_info = device_info
         self._attr_has_entity_name = True
         self._attr_translation_key = field_name

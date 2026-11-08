@@ -1,11 +1,12 @@
 {
-  "domain": "bluetti_bt",
-  "name": "Bluetti BT",
+  "domain": "bluetti_bluetooth",
+  "name": "Bluetti Bluetooth",
   "bluetooth": [
     {
       "service_uuid": "0000ff00-0000-1000-8000-00805f9b34fb"
     }
   ],
+  "categories": ["energy.solar_batteries"],
   "codeowners": [
     "@Patrick762"
   ],
@@ -19,7 +20,7 @@
   "issue_tracker": "https://github.com/Patrick762/bluetti-bt-core/issues",
   "quality_scale": "bronze",
   "requirements": [
-    "bluetti-bt-lib==0.2.0b9"
+    "bluetti-bt-lib==0.2.0b11"
   ],
   "version": "1.0.0"
 }

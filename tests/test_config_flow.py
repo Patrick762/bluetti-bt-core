@@ -1,8 +1,12 @@
-"""Test the Bluetti BT config flow."""
+"""Test the Bluetti Bluetooth config flow."""
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from homeassistant.components.bluetti_bt.const import (
+from bleak.backends.device import BLEDevice
+import pytest
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.bluetti_bluetooth.const import (
     CONF_ENCRYPTION,
     CONF_SERIAL,
     DOMAIN,
@@ -12,14 +16,11 @@ from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from tests.common import MockConfigEntry
-from tests.components.bluetooth import generate_ble_device
-
 DEVICE_ADDRESS = "AA:BB:CC:DD:EE:FF"
 DEVICE_NAME = "Bluetti AC200M"
 SERVICE_UUID = "0000ff00-0000-1000-8000-00805f9b34fb"
 
-CONFIG_FLOW_PATH = "homeassistant.components.bluetti_bt.config_flow"
+CONFIG_FLOW_PATH = "custom_components.bluetti_bluetooth.config_flow"
 
 MOCK_DEVICE_DATA = {
     CONF_ADDRESS: DEVICE_ADDRESS,
@@ -28,6 +29,11 @@ MOCK_DEVICE_DATA = {
     CONF_API_VERSION: 1,
     CONF_ENCRYPTION: False,
 }
+
+
+def generate_ble_device(address: str, name: str | None) -> BLEDevice:
+    """Build a BLEDevice (ersetzt den HA-Core-Testhelfer)."""
+    return BLEDevice(address, name, {})
 
 
 def _service_info(address: str = DEVICE_ADDRESS, name: str = DEVICE_NAME) -> MagicMock:
@@ -55,6 +61,7 @@ def _mock_recognized_device(
     return result
 
 
+@pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_discovery_success(hass: HomeAssistant) -> None:
     """Discovery followed by successful detection creates an entry."""
     with (
@@ -79,7 +86,7 @@ async def test_bluetooth_discovery_success(hass: HomeAssistant) -> None:
             result["flow_id"], user_input={}
         )
 
-    assert result2["type"] is FlowResultType.CREATE_ENTRY
+    assert result2["result"].unique_id == DEVICE_ADDRESS
     assert result2["title"] == "AC200M"
     assert result2["data"] == MOCK_DEVICE_DATA
 

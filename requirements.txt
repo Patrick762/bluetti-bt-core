@@ -1,4 +1,14 @@
 homeassistant
+aiousbwatcher
+pyserial
+pyudev
+bleak
+bleak-retry-connector
+bluetooth-adapters
+bluetooth-auto-recovery
+bluetooth-data-tools
+dbus-fast
+habluetooth
 probatio
-pytest
-bluetti-bt-lib==0.2.0b9
+pytest-homeassistant-custom-component
+bluetti-bt-lib==0.2.0b11

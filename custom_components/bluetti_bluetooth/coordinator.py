@@ -1,5 +1,6 @@
 """Coordinator for Bluetti BT integration."""
 
+import asyncio
 from datetime import timedelta
 from enum import Enum
 import logging
@@ -17,10 +18,10 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import CONF_ENCRYPTION, DOMAIN
 
-type BluettiBtConfigEntry = ConfigEntry[PollingCoordinator]
+type BluettiBtConfigEntry = ConfigEntry[BluettiBluetoothCoordinator]
 
 
-class PollingCoordinator(DataUpdateCoordinator):
+class BluettiBluetoothCoordinator(DataUpdateCoordinator):
     """Polling coordinator."""
 
     config_entry: BluettiBtConfigEntry
@@ -31,10 +32,6 @@ class PollingCoordinator(DataUpdateCoordinator):
         self.mac = config_entry.data.get(CONF_ADDRESS)
         self.mac_str = str(self.mac).replace(":", "")
 
-        ble_device = bluetooth.async_ble_device_from_address(
-            hass, str(self.mac), connectable=True
-        )
-
         super().__init__(
             hass,
             logging.getLogger(f"{__name__}.{self.mac_str}"),
@@ -43,9 +40,6 @@ class PollingCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=60),
         )
 
-        if ble_device is None:
-            raise ConfigEntryNotReady(f"Cannot connect to {self.mac}")
-
         if config_entry.data.get(CONF_API_VERSION) == 1:
             self.device = BaseDeviceV1()
         elif config_entry.data.get(CONF_API_VERSION) == 2:
@@ -53,35 +47,41 @@ class PollingCoordinator(DataUpdateCoordinator):
         else:
             raise HomeAssistantError("Unknown protocol")
 
-        self.reader = DeviceReader(
-            self.mac,
-            self.device,
-            self.hass.loop.create_future,
-            DeviceReaderConfig(
-                use_encryption=config_entry.data.get(CONF_ENCRYPTION),
-            ),
-            ble_device=ble_device,
-        )
-
     @override
     async def _async_update_data(
         self,
     ) -> dict[str, bool | int | float | Enum | str | bytes]:
         """Fetch data from bluetooth device."""
 
+        ble_device = bluetooth.async_ble_device_from_address(
+            self.hass, str(self.mac), connectable=True
+        )
+
+        if ble_device is None:
+            raise ConfigEntryNotReady(f"Cannot connect to {self.mac}")
+
+        reader = DeviceReader(
+            self.mac,
+            self.device,
+            self.hass.loop.create_future,
+            DeviceReaderConfig(
+                use_encryption=self.config_entry.data.get(CONF_ENCRYPTION),
+            ),
+            ble_device=ble_device,
+            lock=asyncio.Lock(),
+        )
+
         if (
             bluetooth.async_address_present(self.hass, str(self.mac), connectable=True)
             is False
         ):
-            self.last_update_success = False
             raise UpdateFailed("Device not connected")
 
-        data: dict[str, bool | int | float | Enum | str | bytes] | None = (
-            await self.reader.read()
-        )
+        data: (
+            dict[str, bool | int | float | Enum | str | bytes] | None
+        ) = await reader.read()
 
         if not data:
-            self.last_update_success = False
             raise UpdateFailed("Device returned no data")
 
         self.logger.debug("Device data: %s", data)
