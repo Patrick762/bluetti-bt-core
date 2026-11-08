@@ -104,9 +104,7 @@ class DetailsMapping:
 ENTITY_DETAILS_MAPPING: dict[FieldName, DetailsMapping] = {{
     {'\n\t'.join(details)}
 }}
-""".replace(
-    "\t", "    "
-)
+""".replace("\t", "    ")
 
 with open("custom_components/bluetti_bluetooth/const.py", "w") as f:
     f.write(const_py)

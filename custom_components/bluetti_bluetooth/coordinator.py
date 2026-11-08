@@ -77,9 +77,9 @@ class BluettiBluetoothCoordinator(DataUpdateCoordinator):
         ):
             raise UpdateFailed("Device not connected")
 
-        data: (
-            dict[str, bool | int | float | Enum | str | bytes] | None
-        ) = await reader.read()
+        data: dict[str, bool | int | float | Enum | str | bytes] | None = (
+            await reader.read()
+        )
 
         if not data:
             raise UpdateFailed("Device returned no data")
