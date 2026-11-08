@@ -1,5 +1,5 @@
 ---
-title: Bluetti BT
+title: Bluetti Bluetooth
 description: Instructions on setting up Bluetti Bluetooth devices within Home Assistant.
 ha_category:
   - Energy
@@ -9,7 +9,7 @@ ha_release: 2026.10
 ha_config_flow: true
 ha_codeowners:
   - '@Patrick762'
-ha_domain: bluetti_bt
+ha_domain: bluetti_bluetooth
 ha_platforms:
   - sensor
 ha_integration_type: device

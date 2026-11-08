@@ -4,7 +4,7 @@ import json
 import requests
 from typing import Literal
 
-# from custom_components.bluetti_bt.const import EntityDetailsMap
+# from custom_components.bluetti_bluetooth.const import EntityDetailsMap
 from bluetti_bt_lib import FieldName
 
 t_url = "https://patrick762.github.io/bluetti-registers/translations.json"
@@ -76,7 +76,7 @@ for proto in p_json:
 
 details = [l for l in details.values()]
 
-const_py = f"""\"\"\"Constants for the Bluetti BT integration.\"\"\"
+const_py = f"""\"\"\"Constants for the Bluetti Bluetooth integration.\"\"\"
 
 from dataclasses import dataclass
 
@@ -85,7 +85,7 @@ from bluetti_bt_lib import FieldName
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.const import EntityCategory
 
-DOMAIN = "bluetti_bt"
+DOMAIN = "bluetti_bluetooth"
 
 CONF_ENCRYPTION = "encryption"
 CONF_SERIAL = "serial"
@@ -108,7 +108,7 @@ ENTITY_DETAILS_MAPPING: dict[FieldName, DetailsMapping] = {{
     "\t", "    "
 )
 
-with open("custom_components/bluetti_bt/const.py", "w") as f:
+with open("custom_components/bluetti_bluetooth/const.py", "w") as f:
     f.write(const_py)
     f.close()
 
@@ -158,16 +158,16 @@ for locale, translations in t_json.items():
             t_de["entity"] = t_entity
             break
 
-with open("custom_components/bluetti_bt/strings.json", "w") as f:
+with open("custom_components/bluetti_bluetooth/strings.json", "w") as f:
     json.dump(t_en, f, indent=2)
     f.close()
 
 # Custom component only
 
-with open("custom_components/bluetti_bt/translations/en.json", "w") as f:
+with open("custom_components/bluetti_bluetooth/translations/en.json", "w") as f:
     json.dump(t_en, f, indent=2)
     f.close()
 
-with open("custom_components/bluetti_bt/translations/de.json", "w") as f:
+with open("custom_components/bluetti_bluetooth/translations/de.json", "w") as f:
     json.dump(t_de, f, indent=2)
     f.close()

@@ -1,11 +1,11 @@
 # bluetti-bt-core
-Core Integration of Bluetti BT
+Core Integration of Bluetti Bluetooth
 
 Preparations for core integration
 
 ## Releasing to core
 
-- /custom_components/bluetti_bt - https://github.com/home-assistant/core/tree/dev/homeassistant/components
+- /custom_components/bluetti_bluetooth - https://github.com/home-assistant/core/tree/dev/homeassistant/components
 - /docs - https://github.com/home-assistant/home-assistant.io/tree/current/source/_integrations
 
 ## Pull Requests on core Repos
