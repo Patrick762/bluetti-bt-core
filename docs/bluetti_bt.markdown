@@ -1,5 +1,5 @@
 ---
-title: Bluetti Bluetooth
+title: BLUETTI Bluetooth
 description: Instructions on setting up Bluetti Bluetooth devices within Home Assistant.
 ha_category:
   - Energy
