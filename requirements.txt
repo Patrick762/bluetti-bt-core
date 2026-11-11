@@ -10,5 +10,6 @@ bluetooth-data-tools
 dbus-fast
 habluetooth
 probatio
+serialx
 pytest-homeassistant-custom-component
 bluetti-bt-lib==0.2.0b11
