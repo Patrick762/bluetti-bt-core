@@ -7,11 +7,11 @@ import logging
 from typing import override
 
 from bluetti_bt_lib import DeviceReader, DeviceReaderConfig
-from bluetti_bt_lib.base_devices import BaseDeviceV1, BaseDeviceV2
+from bluetti_bt_lib.utils import build_device
 
 from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION
+from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -40,12 +40,10 @@ class BluettiBluetoothCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=60),
         )
 
-        if config_entry.data.get(CONF_API_VERSION) == 1:
-            self.device = BaseDeviceV1()
-        elif config_entry.data.get(CONF_API_VERSION) == 2:
-            self.device = BaseDeviceV2()
-        else:
-            raise HomeAssistantError("Unknown protocol")
+        self.device = build_device(config_entry.data.get(CONF_MODEL))
+
+        if self.device is None:
+            raise HomeAssistantError("Unknown device")
 
     @override
     async def _async_update_data(
