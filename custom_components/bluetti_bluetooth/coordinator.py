@@ -6,12 +6,11 @@ from enum import Enum
 import logging
 from typing import override
 
-from bluetti_bt_lib import DeviceReader, DeviceReaderConfig
-from bluetti_bt_lib.utils import build_device
+from bluetti_bt_lib import DeviceReader, DeviceReaderConfig, build_device
 
 from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_ADDRESS, CONF_API_VERSION, CONF_MODEL
+from homeassistant.const import CONF_ADDRESS, CONF_MODEL
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
